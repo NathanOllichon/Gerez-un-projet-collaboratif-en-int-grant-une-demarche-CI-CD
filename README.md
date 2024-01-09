@@ -1,16 +1,10 @@
 # BobApp
 
-Two readme in One:
+Clone project:
 
-- Legacy readme
-- Readme in progress with CI/CD, but lack of configuration
+> git clone XXXXX
 
-CI/CD in progress, he need to configure for use you're space.
-
-
-## Legacy readme
-
-### Front-end 
+## Front-end 
 
 Go inside folder the front folder:
 
@@ -24,71 +18,39 @@ Launch Front-end:
 
 > npm run start;
 
-#### Docker
+### Configuration Sonar analyse
 
-Build the container:
+We have two type of Sonar analyse, on PR and on Main.
+For Pull Request Sonar analyse only the new modifications.
+For Push on main we analyse the wole code and new modifications, he have two tab on SonarCloud.
 
-> docker build -t bobapp-front .
 
-Start the container:
+The SonarCLoud projects are configured on a workflow Github Actions and on your github Secrets.
 
-> docker run -p 8080:8080 --name bobapp-front -d bobapp-front
+Go at sonar cloud "https://sonarcloud.io/" and create an account and a project.
+Go on ".github/workflows/CI-CD-Pipe-Main.yml" and modify two args for the run command on "Maven build and Sonar analyze back-end" task, for you're own space/account.
+-Dsonar.projectName=""
+-Dsonar.projectKey=
 
-### Back-end
+You can find this informations on "information" in your project on SonarCloud
+Don't forget to update your Quality gate used on information, for your own quality gate.
 
-Go inside folder the back folder:
 
-> cd back
+For add secrets, go in your github, settings, Secrets and variables, Action.
+Modify the value of SONAR_TOKEN for your token, generate on SonarCLoud, my account, security.
 
-Install dependencies:
 
-> mvn clean install
+Then for exclude files of analyses or for include tests files for coverage, you can find another configuration in ./front/sonar-project.properties 
 
-Launch Back-end:
+### Docker Front-end
 
->  mvn spring-boot:run
-
-The tests:
-
-On github Actions, download and open the artifacts with a browser
-
-#### Docker
-
-The containers are configured on a workflow Github Actions.
-Go on it and modify "" for you're own space/account
+The dockerHub repository is configured on a workflow Github Actions and on your github Secrets.
+Go on ".github/workflows/CI-CD-Pipe-Main.yml" and modify "" for you're own space/account
 
 OPEN Docker desktop and search for your images 
 Then run it.
 
--
--
--
-
-## WIP CI/CD Readme
-
-### Front-end 
-
-Go inside folder the front folder:
-
-> cd front
-
-Install dependencies:
-
-> npm install
-
-Launch Front-end:
-
-> npm run start;
-
-#### Docker
-
-The container are configured on a workflow Github Actions.
-Go on it and modify "" for you're own space/account
-
-OPEN Docker desktop and search for your images 
-Then run it.
-
-### Back-end
+## Back-end
 
 Go inside folder the back folder:
 
@@ -107,7 +69,7 @@ Tests automaticaly played:
 On github Actions choose test workflow, download and open the artifacts with a browser.
 
 
-#### Docker
+### Docker Back-end
 
 The container are configured on a workflow Github Actions.
 Go on it and modify "" for you're own space/account
@@ -115,7 +77,7 @@ Go on it and modify "" for you're own space/account
 OPEN Docker desktop and search for your images 
 Then run it.
 
-#### Configuration
+## Configuration
 
 SonarCloud 2 spaces creation et config + keys + sonar quality gate 
 modification on github secrets + change names of project cloud in workflow
