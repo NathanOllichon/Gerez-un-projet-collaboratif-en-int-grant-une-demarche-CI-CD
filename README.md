@@ -4,21 +4,7 @@ Clone project:
 
 > git clone XXXXX
 
-## Front-end 
-
-Go inside folder the front folder:
-
-> cd front
-
-Install dependencies:
-
-> npm install
-
-Launch Front-end:
-
-> npm run start;
-
-### Configuration Sonar analyse
+## Configuration Sonar analyse
 
 We have two type of Sonar analyse, on PR and on Main.
 For Pull Request Sonar analyse only the new modifications.
@@ -32,6 +18,8 @@ Go on ".github/workflows/CI-CD-Pipe-Main.yml" and modify two args for the run co
 -Dsonar.projectName=""
 -Dsonar.projectKey=
 
+Same on think on ".github/workflows/CI-CD-Pipe-PR.yml".
+
 You can find this informations on "information" in your project on SonarCloud
 Don't forget to update your Quality gate used on information, for your own quality gate.
 
@@ -42,13 +30,32 @@ Modify the value of SONAR_TOKEN for your token, generate on SonarCLoud, my accou
 
 Then for exclude files of analyses or for include tests files for coverage, you can find another configuration in ./front/sonar-project.properties 
 
-### Docker Front-end
+On github Actions choose the workflow, download and open the open artifacts with a browser.
+
+### Configuration Docker
+
+Go at sonar cloud "https://hub.docker.com/" and create a repository.
 
 The dockerHub repository is configured on a workflow Github Actions and on your github Secrets.
-Go on ".github/workflows/CI-CD-Pipe-Main.yml" and modify "" for you're own space/account
+Go on ".github/workflows/CI-CD-Pipe-Main.yml" and modify the two task "Build and push" and after the secret on "tags:" choice the tags names you want for docker images front and back. 
 
-OPEN Docker desktop and search for your images 
-Then run it.
+For add secrets, go in your github, settings, Secrets and variables, Action.
+Modify the value of DOCKERHUB_USERNAME, add your username on DockerHub.
+Modify the value of DOCKERHUB_TOKEN, generate on DockerHub, in my account, security.
+
+## Front-end 
+
+Go inside folder the front folder:
+
+> cd front
+
+Install dependencies:
+
+> npm install
+
+Launch Front-end:
+
+> npm run start;
 
 ## Back-end
 
@@ -64,22 +71,7 @@ Launch Back-end:
 
 >  mvn spring-boot:run
 
-Tests automaticaly played:
+## Docker Launch
 
-On github Actions choose test workflow, download and open the artifacts with a browser.
-
-
-### Docker Back-end
-
-The container are configured on a workflow Github Actions.
-Go on it and modify "" for you're own space/account
-
-OPEN Docker desktop and search for your images 
+OPEN Docker desktop and search for your images (Back and Front)
 Then run it.
-
-## Configuration
-
-SonarCloud 2 spaces creation et config + keys + sonar quality gate 
-modification on github secrets + change names of project cloud in workflow
-
-Same for DockerHub, for push in your spaces, create name and change project name. 
