@@ -1,4 +1,4 @@
-name: Tests and analyse Back-end and Front-end
+name: Tests, Analyse Back & Front
 
 on:
   pull_request:
@@ -125,8 +125,6 @@ jobs:
         name: code-coverage-report
         path: front/coverage/bobapp/
 
-
-
   analyse-front:
     name: SonarQube front
     needs: [build-front]
@@ -137,8 +135,7 @@ jobs:
     runs-on: ${{ matrix.os }}
 
     steps:
-      - uses: actions/checkout@v3
-      - name: Node.js config V ${{ matrix.node-version }}
+      - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
@@ -151,10 +148,11 @@ jobs:
         working-directory: front
         run: npm ci
 
-      - name: Run front tests and generate coverage
+      - name: Coverage tests
         working-directory: front
-        run: npm test --  --watch=false --browsers ChromeHeadless
-        # npm test -- --watch=false --browsers=ChromeHeadless
+        run: |
+          npm install -g @angular/cli
+          ng test --code-coverage --watch=false --browsers ChromeHeadless
 
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
@@ -165,6 +163,7 @@ jobs:
             -Dsonar.projectKey=nathaollichonoc_no-bob-app-front
             -Dsonar.organization=nathaollichonoc
             -Dsonar.qualitygate.wait=true
+            -Dsonar.javascript.lcov.reportPaths=/coverage/bobapp/lcov.info
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
